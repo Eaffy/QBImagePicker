@@ -47,7 +47,11 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
     PHFetchResult *userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
     self.fetchResults = @[smartAlbums, userAlbums];
-    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0f) {
+        CGFloat statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+        CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height;
+        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, statusBarHeight + navigationHeight)];
+    }
     [self updateAssetCollections];
     
     // Register observer
