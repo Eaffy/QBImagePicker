@@ -98,7 +98,11 @@ static CGSize CGSizeScale(CGSize size, CGFloat scale) {
     } else {
         [self.navigationItem setRightBarButtonItem:nil animated:NO];
     }
-    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0f) {
+        CGFloat statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+        CGFloat navigationHeight = self.navigationController.navigationBar.frame.size.height;
+        self.collectionView.contentInset = UIEdgeInsetsMake(statusBarHeight + navigationHeight, 0, 0, 0);
+    }
     [self updateDoneButtonState];
     [self updateSelectionInfo];
     [self.collectionView reloadData];
